@@ -377,7 +377,10 @@ begin
   Result := Format('%.2x%.2x%.2x', [Red, Green, Blue]); // Formata a string no formato HTML (#RRGGBB)
 end;
 
-
+// Declare user config dir
+  XdgConfigDir := GetEnvironmentVariable('XDG_CONFIG_HOME');
+  if XdgConfigDir = '' then
+    XdgConfigDir := GetEnvironmentVariable('HOME') + '/.config/';
 
 //Function to find font files (*.ttf) in /usr/share/fonts
 procedure ListarFontesNoDiretorio(Diretorio: string; ComboBox: TComboBox);
@@ -464,7 +467,7 @@ begin
   Process := TProcess.Create(nil);
   Output := TStringList.Create;
 
-  CaminhoArquivo := GetEnvironmentVariable('HOME') + '/.config/MangoHud/MangoHud.conf';
+  CaminhoArquivo := XdgConfigDir + '/MangoHud/MangoHud.conf';
 
   Process.Executable := '/bin/bash';
   Process.Parameters.Add('-c');
@@ -496,9 +499,9 @@ begin
   Process := TProcess.Create(nil);
   Output := TStringList.Create;
 
-  CaminhoArquivo := GetEnvironmentVariable('HOME') + '/.config/MangoHud/MangoHud.conf';
+  CaminhoArquivo := XdgConfigDir + '/MangoHud/MangoHud.conf';
 
-  Process.Executable := '/bin/bash';
+  Process.Executable := 'sh';
   Process.Parameters.Add('-c');
   Process.Parameters.Add('cat ' +  CaminhoArquivo + ' | grep ' + Parametro);
   Process.Options := [poUsePipes];
@@ -630,11 +633,11 @@ begin
   KernelVersion := GetKernelVersion;
 
   // create directory
-  if not DirectoryExists(GetUserDir + '.config/goverlay') then
-    CreateDir(GetUserDir + '.config/goverlay');
+  if not DirectoryExists(XdgConfigDir + '/goverlay') then
+    CreateDir(XdgConfigDir + '/goverlay');
 
   // storing distro name
-  AssignFile(F, GetUserDir + '.config/goverlay/distro');
+  AssignFile(F, XdgConfigDir + '/goverlay/distro');
   try
     Rewrite(F);
     WriteLn(F, DistroInfo + ' (' + VersionOrBuildID + ')');
@@ -643,7 +646,7 @@ begin
   end;
 
   // storing kernel version
-  AssignFile(F, GetUserDir + '.config/goverlay/kernel');
+  AssignFile(F, XdgConfigDir + '/goverlay/kernel');
   try
     Rewrite(F);
     WriteLn(F, KernelVersion);
@@ -661,8 +664,8 @@ procedure Tgoverlayform.usercustomBitBtnClick(Sender: TObject);
 begin
 
   // Update the config files path
-   CUSTOMCFGFILE := GetEnvironmentVariable('HOME') + '/.config/MangoHud/custom.conf';
-   MANGOHUDCFGFILE := GetEnvironmentVariable('HOME') + '/.config/MangoHud/MangoHud.conf';
+   CUSTOMCFGFILE := XdgConfigDir + '/MangoHud/custom.conf';
+   MANGOHUDCFGFILE := XdgConfigDir + '/MangoHud/MangoHud.conf';
 
 
 
@@ -838,11 +841,11 @@ begin
 
   // Define important file paths
 
-  GOVERLAYFOLDER := GetEnvironmentVariable('HOME') + '/.config/goverlay/';
-  MANGOHUDFOLDER := GetEnvironmentVariable('HOME') + '/.config/MangoHud/';
-  MANGOHUDCFGFILE := GetEnvironmentVariable('HOME') + '/.config/MangoHud/MangoHud.conf';
-  BlacklistFile := GetEnvironmentVariable('HOME') + '/.config/goverlay/blacklist.conf';
-  CUSTOMCFGFILE := GetEnvironmentVariable('HOME') + '/.config/MangoHud/custom.conf';
+  GOVERLAYFOLDER := XdgConfigDir + '/goverlay/';
+  MANGOHUDFOLDER := XdgConfigDir + '/MangoHud/';
+  MANGOHUDCFGFILE := XdgConfigDir + '/MangoHud/MangoHud.conf';
+  BlacklistFile := XdgConfigDir + '/goverlay/blacklist.conf';
+  CUSTOMCFGFILE := XdgConfigDir + '/MangoHud/custom.conf';
   FONTFOLDER := '/usr/share/fonts/';
   USERHOME := GetEnvironmentVariable('HOME');
   USERSESSION := GetEnvironmentVariable('XDG_SESSION_TYPE');
@@ -949,7 +952,7 @@ begin
 
 
    // Check blacklist directory
-  BlacklistFile := GetEnvironmentVariable('HOME') + '/.config/goverlay/blacklist.conf';
+  BlacklistFile := XdgConfigDir + '/goverlay/blacklist.conf';
 
   // make sure directory exists
   ForceDirectories(ExtractFilePath(BlacklistFile));
@@ -3128,7 +3131,7 @@ var
 
 
       Savecheckbox (distroinfoCheckBox, DISTROINFO1, 'custom_text=-');
-      Savecheckbox (distroinfoCheckBox, DISTROINFO2, '"exec=cat $HOME/.config/goverlay/distro"');
+      Savecheckbox (distroinfoCheckBox, DISTROINFO2, '"exec=cat ${XDG_CONFIG_HOME:-~/.config}/goverlay/distro"');
 
 
       Savecheckbox (distroinfoCheckBox, DISTROINFO3, 'custom_text=-');
@@ -3442,8 +3445,8 @@ var
 
     //########################################### SAVE BLACKLIST
 
-  BlacklistFile := GetEnvironmentVariable('HOME') + '/.config/goverlay/blacklist.conf';
-  MANGOHUDCFGFILE := GetEnvironmentVariable('HOME') + '/.config/MangoHud/MangoHud.conf';
+  BlacklistFile := XdgConfigDir + '/goverlay/blacklist.conf';
+  MANGOHUDCFGFILE := XdgConfigDir + '/MangoHud/MangoHud.conf';
 
   FileLines := TStringList.Create;
   ConfigLines := TStringList.Create;
