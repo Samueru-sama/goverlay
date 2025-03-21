@@ -378,6 +378,8 @@ begin
 end;
 
 // Declare user config dir
+var
+  XdgConfigDir: string;
 begin
   XdgConfigDir := GetEnvironmentVariable('XDG_CONFIG_HOME');
   if XdgConfigDir = '' then
