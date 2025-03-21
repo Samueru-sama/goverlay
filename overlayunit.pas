@@ -378,6 +378,7 @@ begin
 end;
 
 // Declare user config dir
+procedure GetXdgVars;
 var
   XdgConfigDir: string;
 begin
