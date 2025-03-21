@@ -378,9 +378,11 @@ begin
 end;
 
 // Declare user config dir
+begin
   XdgConfigDir := GetEnvironmentVariable('XDG_CONFIG_HOME');
   if XdgConfigDir = '' then
     XdgConfigDir := GetEnvironmentVariable('HOME') + '/.config/';
+end;
 
 //Function to find font files (*.ttf) in /usr/share/fonts
 procedure ListarFontesNoDiretorio(Diretorio: string; ComboBox: TComboBox);
