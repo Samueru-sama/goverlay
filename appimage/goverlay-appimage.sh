@@ -26,6 +26,7 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 	/usr/bin/vkcube \
 	/usr/bin/vkcube-wayland \
 	/usr/bin/lspci \
+	/usr/lib/gdk-pixbuf-*/*/*/* \
 	/usr/lib/qt6/plugins/iconengines/* \
 	/usr/lib/qt6/plugins/imageformats/* \
 	/usr/lib/qt6/plugins/platforms/* \
