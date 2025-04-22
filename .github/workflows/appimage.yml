@@ -51,7 +51,6 @@ jobs:
             libglvnd \
             libx11 \
             libxkbcommon \
-            libxnvctrl \
             mesa \
             meson \
             nlohmann-json \
@@ -76,7 +75,7 @@ jobs:
             zsync
 
           if [ "$(uname -m)" = 'x86_64' ]; then
-          	pacman -Syu --noconfirm vulkan-intel
+          	pacman -Syu --noconfirm vulkan-intel libxnvctrl
           else
           	pacman -Syu --noconfirm \
               vulkan-freedreno vulkan-panfrost vulkan-broadcom
