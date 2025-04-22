@@ -96,6 +96,7 @@ jobs:
             ./mangohud && (
                cd ./mangohud
                sed -i -e "s|x86_64|$(uname -m)|" \
+                 -e 's|-Dmangohudctl=true|-Dmangohudctl=true -Dwith_xnvctrl=disabled|' \
                  -e '/libxnvctrl/d' ./PKGBUILD
                makepkg -f
                ls -la .
