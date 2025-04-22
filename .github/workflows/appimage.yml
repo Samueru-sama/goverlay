@@ -95,6 +95,7 @@ jobs:
             https://gitlab.archlinux.org/archlinux/packaging/packages/mangohud.git \
             ./mangohud && (
                cd ./mangohud
+               sed -i -e "s|x86_64|$(uname -m)|" ./PKGBUILD
                makepkg -f
                ls -la .
                pacman --noconfirm -U *.pkg.tar.*
