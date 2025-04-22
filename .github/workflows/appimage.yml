@@ -36,20 +36,33 @@ jobs:
             base-devel \
             cmake \
             curl \
+            dbus \
+            fmt \
+            gcc-libs \
             git \
+            glew \
+            glfw \
             glu \
+            hicolor-icon-theme \
             lazarus \
-            mangohud \
+            libglvnd \
+            libx11 \
+            libxkbcommon \
             mesa \
             patchelf \
             pciutils \
+            python \
+            python-matplotlib \
+            python-numpy \
             qt6ct \
             qt6pas \
             qt6-wayland \
             strace \
+            vulkan-icd-loader \
             vulkan-nouveau \
             vulkan-radeon \
             vulkan-tools \
+            wayland \
             wget \
             xorg-server-xvfb \
             zsync
@@ -60,6 +73,25 @@ jobs:
           	pacman -Syu --noconfirm \
               vulkan-freedreno vulkan-panfrost vulkan-broadcom
           fi
+
+      - name: Build mangohud
+        run: |
+          sed -i 's|EUID == 0|EUID == 69|g' /usr/bin/makepkg
+          mkdir -p /usr/local/bin
+          cp /usr/bin/makepkg /usr/local/bin
+          sed -i \
+            's|-O2|-O3|; s|MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|; s|#MAKEFLAGS|MAKEFLAGS|' \
+            /etc/makepkg.conf
+          cat /etc/makepkg.conf
+
+          git clone \
+            https://gitlab.archlinux.org/archlinux/packaging/packages/mangohud.git \
+            ./mangohud && (
+               makepkg -f
+               ls -la .
+               pacman --noconfirm -U *.pkg.tar.*
+            )
+          rm -rf ./mangohud
 
       - name: Install debloated packages
         run: |
