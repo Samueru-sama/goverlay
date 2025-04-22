@@ -33,8 +33,10 @@ jobs:
         run: |
           sed -i 's/DownloadUser/#DownloadUser/g' /etc/pacman.conf
           pacman -Syu --noconfirm \
+            appstream \
             base-devel \
             cmake \
+            cmocka \
             curl \
             dbus \
             fmt \
@@ -42,22 +44,28 @@ jobs:
             git \
             glew \
             glfw \
+            glslang \
             glu \
             hicolor-icon-theme \
             lazarus \
             libglvnd \
             libx11 \
             libxkbcommon \
+            libxnvctrl \
             mesa \
+            meson \
+            nlohmann-json \
             patchelf \
             pciutils \
             python \
+            python-mako \
             python-matplotlib \
             python-numpy \
             qt6ct \
             qt6pas \
             qt6-wayland \
             strace \
+            vulkan-headers \
             vulkan-icd-loader \
             vulkan-nouveau \
             vulkan-radeon \
