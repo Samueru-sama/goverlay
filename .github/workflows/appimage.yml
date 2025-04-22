@@ -86,7 +86,7 @@ jobs:
           sed -i 's|EUID == 0|EUID == 69|g' /usr/bin/makepkg
           mkdir -p /usr/local/bin
           cp /usr/bin/makepkg /usr/local/bin
-          sed -i \
+          sed -i -e \
             's|-O2|-O3|; s|MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|; s|#MAKEFLAGS|MAKEFLAGS|' \
             /etc/makepkg.conf
           cat /etc/makepkg.conf
@@ -95,7 +95,8 @@ jobs:
             https://gitlab.archlinux.org/archlinux/packaging/packages/mangohud.git \
             ./mangohud && (
                cd ./mangohud
-               sed -i -e "s|x86_64|$(uname -m)|" ./PKGBUILD
+               sed -i -e "s|x86_64|$(uname -m)|" \
+                 -e '/libxnvctrl/d' ./PKGBUILD
                makepkg -f
                ls -la .
                pacman --noconfirm -U *.pkg.tar.*
