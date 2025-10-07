@@ -23,6 +23,7 @@ wget "$LIB4BN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 	/usr/lib/goverlay \
+	/usr/lib/pascube/pascube \
 	/usr/lib/mangohud/* \
 	/usr/lib/libvkbasalt.so* \
 	/usr/bin/vkcube \
@@ -36,6 +37,9 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 	/usr/lib/qt6/plugins/styles/* \
 	/usr/lib/qt6/plugins/xcbglintegrations/* \
 	/usr/lib/qt6/plugins/wayland-*/*
+
+# copy pascube data files
+cp -rv /usr/share/pascube ./share
 
 # VERY IMPORTANT!
 cp -rv /usr/share/vulkan/implicit_layer.d ./share/vulkan
